@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreateCrafty - Minecraft Server</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: #0a0a0a;
+            color: #ddd;
+            text-align: center;
+        }
+        header {
+            background: linear-gradient(#1f1f1f, #0a0a0a);
+            padding: 40px 20px;
+            border-bottom: 5px solid #f97316;
+        }
+        .logo {
+            font-size: 4rem;
+            color: #f97316;
+            margin: 0;
+        }
+        .ip-box {
+            background: #1a1a1a;
+            border: 3px solid #f97316;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 600px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+        }
+        button {
+            padding: 12px 25px;
+            background: #f97316;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+        section {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h2 {
+            color: #f97316;
+            margin-bottom: 20px;
+        }
+        .mods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            text-align: left;
+        }
+        .mod-card {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #f97316;
+        }
+        .rules {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: left;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        .online {
+            color: #22c55e;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="logo">CREATECRAFTY</h1>
+        <p style="font-size:1.3rem; margin-top:10px;">Forge 1.20.1 • Create Tech Server</p>
+        
+        <div class="ip-box">
+            <strong>Server IP:</strong><br>
+            <span id="ip">needed-tgp.gl.joinmc.link</span>
+            <button onclick="copyIP()">Copy IP</button>
+        </div>
+        
+        <p class="online" id="player-count">Loading player count...</p>
+    </header>
+
+    <section>
+        <h2>📦 Required Mods</h2>
+        <div class="mods-grid">
+            <div class="mod-card">• Create</div>
+            <div class="mod-card">• Steam 'n' Rails</div>
+            <div class="mod-card">• Create: Crafts & Additions</div>
+            <div class="mod-card">• Create: Enchantment Industry</div>
+            <div class="mod-card">• FutureShops</div>
+            <div class="mod-card">• JEI (Just Enough Items)</div>
+            <div class="mod-card">• FTB Essentials</div>
+            <div class="mod-card">• Simple Voice Chat</div>
+            <div class="mod-card">• Distant Horizons</div>
+            <div class="mod-card">• GeckoLib</div>
+        </div>
+        <p style="margin-top:20px;"><strong>Full mod list + download links coming soon!</strong></p>
+    </section>
+
+    <section>
+        <h2>📜 Server Rules</h2>
+        <div class="rules">
+            <ol>
+                <li>No griefing or stealing</li>
+                <li>No hacking or X-ray</li>
+                <li>Be respectful to everyone</li>
+                <li>No lag machines</li>
+                <li>PvP only with permission</li>
+                <li>Have fun and build cool stuff!</li>
+            </ol>
+        </div>
+    </section>
+
+    <footer style="padding:30px; background:#111; margin-top:50px;">
+        <p>CreateCrafty • Minecraft 1.20.1 Forge</p>
+    </footer>
+
+    <script>
+        function copyIP() {
+            navigator.clipboard.writeText("needed-tgp.gl.joinmc.link");
+            alert("IP Copied! ✅");
+        }
+
+        // Live player count
+        async function updatePlayers() {
+            try {
+                const res = await fetch('https://api.mcsrvstat.us/2/needed-tgp.gl.joinmc.link');
+                const data = await res.json();
+                document.getElementById('player-count').innerHTML = 
+                    data.online ? `🟢 ${data.players.online} players online` : `🔴 Server is offline`;
+            } catch(e) {
+                document.getElementById('player-count').innerHTML = `🟡 Checking server...`;
+            }
+        }
+        updatePlayers();
+        setInterval(updatePlayers, 30000);
+    </script>
+</body>
+</html>

@@ -39,7 +39,6 @@
             border-radius: 5px;
             font-size: 1.1rem;
             cursor: pointer;
-            margin-left: 15px;
         }
         section {
             max-width: 1000px;
@@ -52,7 +51,7 @@
         }
         .mods-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 15px;
             text-align: left;
         }
@@ -70,18 +69,13 @@
             max-width: 800px;
             margin: 30px auto;
         }
-        .online {
-            color: #22c55e;
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
 
     <header>
         <h1 class="logo">CREATECRAFTY</h1>
-        <p style="font-size:1.3rem; margin-top:10px;">Forge 1.20.1 • Create Tech Server</p>
+        <p style="font-size:1.3rem; margin-top:10px;">Forge 1.20.1 • Create Tech Survival</p>
         
         <div class="ip-box">
             <strong>Server IP:</strong><br>
@@ -89,7 +83,7 @@
             <button onclick="copyIP()">Copy IP</button>
         </div>
         
-        <p class="online" id="player-count">Loading player count...</p>
+        <p style="font-size:1.6rem; color:#22c55e;" id="player-count">Loading player count...</p>
     </header>
 
     <section>
@@ -101,48 +95,45 @@
             <div class="mod-card">• Create: Enchantment Industry</div>
             <div class="mod-card">• FutureShops</div>
             <div class="mod-card">• JEI (Just Enough Items)</div>
-            <div class="mod-card">• FTB Essentials</div>
             <div class="mod-card">• Simple Voice Chat</div>
-            <div class="mod-card">• Distant Horizons</div>
             <div class="mod-card">• GeckoLib</div>
         </div>
-        <p style="margin-top:20px;"><strong>Full mod list + download links coming soon!</strong></p>
+        <p style="margin-top:20px; color:#aaa;">
+            Full mod list + direct download links coming soon!
+        </p>
     </section>
 
     <section>
         <h2>📜 Server Rules</h2>
         <div class="rules">
             <ol>
-                <li>No griefing or stealing</li>
-                <li>No hacking or X-ray</li>
-                <li>Be respectful to everyone</li>
+                <li>No griefing or stealing from others</li>
+                <li>No hacking, x-ray, or cheats</li>
+                <li>Be respectful to all players</li>
                 <li>No lag machines</li>
-                <li>PvP only with permission</li>
-                <li>Have fun and build cool stuff!</li>
+                <li>PvP only with consent</li>
+                <li>Have fun and create cool stuff!</li>
             </ol>
         </div>
     </section>
 
-    <footer style="padding:30px; background:#111; margin-top:50px;">
-        <p>CreateCrafty • Minecraft 1.20.1 Forge</p>
+    <footer style="padding:30px; background:#111; margin-top:50px; color:#666;">
+        <p>CreateCrafty • Minecraft 1.20.1 Forge Server</p>
     </footer>
 
     <script>
         function copyIP() {
             navigator.clipboard.writeText("needed-tgp.gl.joinmc.link");
-            alert("IP Copied! ✅");
+            alert("✅ IP Copied!");
         }
 
-        // Live player count
         async function updatePlayers() {
             try {
                 const res = await fetch('https://api.mcsrvstat.us/2/needed-tgp.gl.joinmc.link');
                 const data = await res.json();
                 document.getElementById('player-count').innerHTML = 
                     data.online ? `🟢 ${data.players.online} players online` : `🔴 Server is offline`;
-            } catch(e) {
-                document.getElementById('player-count').innerHTML = `🟡 Checking server...`;
-            }
+            } catch(e) {}
         }
         updatePlayers();
         setInterval(updatePlayers, 30000);

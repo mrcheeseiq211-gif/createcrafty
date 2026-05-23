@@ -1,142 +1,824 @@
-<!DOCTYPE html>
-<html lang="en">
+ <!DOCTYPE html>
+
+<html lang="en" class="scroll-smooth">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreateCrafty - Minecraft Server</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background: #0a0a0a;
-            color: #ddd;
-            text-align: center;
-        }
-        header {
-            background: linear-gradient(#1f1f1f, #0a0a0a);
-            padding: 40px 20px;
-            border-bottom: 5px solid #f97316;
-        }
-        .logo {
-            font-size: 4rem;
-            color: #f97316;
-            margin: 0;
-        }
-        .ip-box {
-            background: #1a1a1a;
-            border: 3px solid #f97316;
-            padding: 20px;
-            margin: 30px auto;
-            max-width: 600px;
-            border-radius: 10px;
-            font-size: 1.5rem;
-        }
-        button {
-            padding: 12px 25px;
-            background: #f97316;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.1rem;
-            cursor: pointer;
-        }
-        section {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        h2 {
-            color: #f97316;
-            margin-bottom: 20px;
-        }
-        .mods-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 15px;
-            text-align: left;
-        }
-        .mod-card {
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #f97316;
-        }
-        .rules {
-            background: #1a1a1a;
-            padding: 25px;
-            border-radius: 10px;
-            text-align: left;
-            max-width: 800px;
-            margin: 30px auto;
-        }
-    </style>
-</head>
-<body>
 
-    <header>
-        <h1 class="logo">CREATECRAFTY</h1>
-        <p style="font-size:1.3rem; margin-top:10px;">Forge 1.20.1 • Create Tech Survival</p>
-        
-        <div class="ip-box">
-            <strong>Server IP:</strong><br>
-            <span id="ip">needed-tgp.gl.joinmc.link</span>
-            <button onclick="copyIP()">Copy IP</button>
-        </div>
-        
-        <p style="font-size:1.6rem; color:#22c55e;" id="player-count">Loading player count...</p>
-    </header>
+    <title>CreateCrafty | Advanced Create Mod Server</title>
 
-    <section>
-        <h2>📦 Required Mods</h2>
-        <div class="mods-grid">
-            <div class="mod-card">• Create</div>
-            <div class="mod-card">• Steam 'n' Rails</div>
-            <div class="mod-card">• Create: Crafts & Additions</div>
-            <div class="mod-card">• Create: Enchantment Industry</div>
-            <div class="mod-card">• FutureShops</div>
-            <div class="mod-card">• JEI (Just Enough Items)</div>
-            <div class="mod-card">• Simple Voice Chat</div>
-            <div class="mod-card">• GeckoLib</div>
-        </div>
-        <p style="margin-top:20px; color:#aaa;">
-            Full mod list + direct download links coming soon!
-        </p>
-    </section>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <section>
-        <h2>📜 Server Rules</h2>
-        <div class="rules">
-            <ol>
-                <li>No griefing or stealing from others</li>
-                <li>No hacking, x-ray, or cheats</li>
-                <li>Be respectful to all players</li>
-                <li>No lag machines</li>
-                <li>PvP only with consent</li>
-                <li>Have fun and create cool stuff!</li>
-            </ol>
-        </div>
-    </section>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <footer style="padding:30px; background:#111; margin-top:50px; color:#666;">
-        <p>CreateCrafty • Minecraft 1.20.1 Forge Server</p>
-    </footer>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+
 
     <script>
-        function copyIP() {
-            navigator.clipboard.writeText("needed-tgp.gl.joinmc.link");
-            alert("✅ IP Copied!");
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    fontFamily: {
+
+                        tech: ['Orbitron', 'sans-serif'],
+
+                        sans: ['Space Grotesk', 'sans-serif'],
+
+                    },
+
+                    colors: {
+
+                        darkBg: '#0b0f19',
+
+                        brandOrange: '#ff7a00',
+
+                        brandGreen: '#00ff66',
+
+                    },
+
+                    boxShadow: {
+
+                        'orange-glow': '0 0 20px rgba(255, 122, 0, 0.15)',
+
+                        'green-glow': '0 0 20px rgba(0, 255, 102, 0.15)',
+
+                        'btn-orange': '0 4px 20px rgba(255, 122, 0, 0.4)',
+
+                    }
+
+                }
+
+            }
+
         }
 
-        async function updatePlayers() {
-            try {
-                const res = await fetch('https://api.mcsrvstat.us/2/needed-tgp.gl.joinmc.link');
-                const data = await res.json();
-                document.getElementById('player-count').innerHTML = 
-                    data.online ? `🟢 ${data.players.online} players online` : `🔴 Server is offline`;
-            } catch(e) {}
-        }
-        updatePlayers();
-        setInterval(updatePlayers, 30000);
     </script>
+
+
+
+    <style>
+
+        /* Custom Glassmorphism & Animations */
+
+        .glass-panel {
+
+            background: rgba(15, 23, 42, 0.45);
+
+            backdrop-filter: blur(12px);
+
+            -webkit-backdrop-filter: blur(12px);
+
+            border: 1px solid rgba(255, 255, 255, 0.06);
+
+        }
+
+        
+
+        .tech-grid {
+
+            background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+
+                              linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+
+            background-size: 40px 40px;
+
+            background-position: center center;
+
+        }
+
+
+
+        @keyframes pulse-slow {
+
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+
+            50% { opacity: 0.4; transform: scale(1.05); }
+
+        }
+
+
+
+        .glow-orb-orange {
+
+            filter: blur(120px);
+
+            animation: pulse-slow 8s ease-in-out infinite;
+
+        }
+
+
+
+        .glow-orb-green {
+
+            filter: blur(120px);
+
+            animation: pulse-slow 10s ease-in-out infinite 2s;
+
+        }
+
+
+
+        /* Hide Scrollbar for Intro */
+
+        .no-scroll {
+
+            overflow: hidden;
+
+        }
+
+    </style>
+
+</head>
+
+<body class="bg-darkBg text-slate-200 font-sans antialiased selection:bg-brandOrange selection:text-white no-scroll">
+
+
+
+    <div id="intro-screen" class="fixed inset-0 z-50 bg-[#070a10] flex flex-col justify-center items-center transition-all duration-1000 ease-in-out">
+
+        <div class="relative flex flex-col items-center">
+
+            <div class="absolute w-40 h-40 border-2 border-brandOrange/20 border-t-brandOrange rounded-full animate-spin [animation-duration:3s]"></div>
+
+            <div class="absolute w-48 h-48 border border-brandGreen/10 border-b-brandGreen rounded-full animate-spin [animation-duration:6s] reverse"></div>
+
+            
+
+            <div class="z-10 text-center scale-75 animate-bounce [animation-duration:4s]">
+
+                <h1 class="font-tech text-4xl sm:text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-brandOrange to-amber-400">
+
+                    CREATE<span class="text-brandGreen">CRAFTY</span>
+
+                </h1>
+
+                <div class="h-[2px] w-24 bg-gradient-to-r from-brandOrange to-brandGreen mx-auto mt-2 rounded"></div>
+
+                <p class="text-xs font-tech tracking-[0.3em] text-slate-500 mt-3 uppercase">Initializing System</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="fixed inset-0 -z-10 bg-[#080c14] overflow-hidden">
+
+        <div class="absolute inset-0 tech-grid pointer-events-none"></div>
+
+        
+
+        <canvas id="particleCanvas" class="absolute inset-0 w-full h-full opacity-60"></canvas>
+
+
+
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-brandOrange/10 rounded-full glow-orb-orange pointer-events-none"></div>
+
+        <div class="absolute bottom-1/4 right-1/4 w-[28rem] h-[28rem] bg-brandGreen/10 rounded-full glow-orb-green pointer-events-none"></div>
+
+    </div>
+
+
+
+    <nav class="sticky top-0 z-40 w-full glass-panel border-b border-white/5 transition-all duration-300">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+
+            <a href="#" class="flex items-center space-x-2 group">
+
+                <span class="font-tech text-2xl font-black tracking-wider text-white transition-colors group-hover:text-brandOrange">
+
+                    CREATE<span class="text-brandGreen">CRAFTY</span>
+
+                </span>
+
+            </a>
+
+            
+
+            <div class="hidden md:flex items-center space-x-8 font-tech text-sm tracking-wider">
+
+                <a href="#" class="text-slate-300 hover:text-brandOrange transition-colors">Home</a>
+
+                <a href="#links" class="text-slate-300 hover:text-brandOrange transition-colors">Links</a>
+
+                <a href="#join" class="text-slate-300 hover:text-brandGreen transition-colors">How To Join</a>
+
+                <a href="#rules" class="text-slate-300 hover:text-brandOrange transition-colors">Rules</a>
+
+            </div>
+
+
+
+            <div class="hidden md:flex items-center space-x-4">
+
+                <div class="flex items-center space-x-2 bg-black/40 px-4 py-2 rounded-full border border-brandGreen/20">
+
+                    <span class="w-2 h-2 rounded-full bg-brandGreen animate-pulse"></span>
+
+                    <span class="text-xs font-tech text-brandGreen tracking-wide uppercase"><span id="player-count">42</span> Online</span>
+
+                </div>
+
+                <a href="#" class="bg-[#5865F2] hover:bg-[#4752C4] text-white px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-lg shadow-blue-900/20">
+
+                    <i class="fab fa-discord"></i> Discord
+
+                </a>
+
+            </div>
+
+
+
+            <button id="mobile-menu-btn" class="md:hidden text-white text-2xl focus:outline-none">
+
+                <i class="fas fa-bars"></i>
+
+            </button>
+
+        </div>
+
+
+
+        <div id="mobile-menu" class="hidden md:hidden border-t border-white/5 bg-darkBg/95 backdrop-blur-lg px-4 py-6 space-y-4 font-tech text-center tracking-widest">
+
+            <a href="#" class="block text-slate-300 hover:text-brandOrange py-2">Home</a>
+
+            <a href="#mods" class="block text-slate-300 hover:text-brandGreen py-2">Modpack</a>
+
+            <a href="#links" class="block text-slate-300 hover:text-brandOrange py-2">Links</a>
+
+            <a href="#join" class="block text-slate-300 hover:text-brandGreen py-2">How To Join</a>
+
+            <a href="#rules" class="block text-slate-300 hover:text-brandOrange py-2">Rules</a>
+
+            <div class="pt-4 border-t border-white/5 flex flex-col items-center gap-4">
+
+                <a href="https://discord.gg/KMwqzBe3Gh" class="bg-[#5865F2] hover:bg-[#4752C4] text-white px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-lg shadow-blue-900/20"></a>
+
+                    <i class="fab fa-discord"></i> Discord
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <header class="relative pt-20 pb-24 md:pt-32 md:pb-40 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+        <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-brandOrange/10 to-brandGreen/10 border border-white/10 px-4 py-1.5 rounded-full mb-6 animate-fade-in">
+
+            <span class="text-xs font-tech tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-brandOrange to-amber-400 font-bold uppercase">
+
+                ⚙️ Forge 1.20.1 CreateCrafty SMP
+
+            </span>
+
+        </div>
+
+
+
+        <h1 class="font-tech text-5xl sm:text-7xl md:text-8xl font-black tracking-tighter text-white mb-6 drop-shadow-sm">
+
+            CREATE<span class="text-transparent bg-clip-text bg-gradient-to-r from-brandGreen to-emerald-400">CRAFTY</span>
+
+        </h1>
+
+        <p class="text-lg sm:text-2xl text-slate-400 max-w-3xl mx-auto mb-12 font-light">
+
+            Build, Automate, and Explore with Create Mods. Join an elite network dedicated to beautiful kinetic engineering and zero boundaries.
+
+        </p>
+
+
+
+        <div class="max-w-xl mx-auto">
+
+            <button onclick="copyServerIP()" class="group relative w-full sm:w-auto bg-gradient-to-r from-brandOrange to-amber-500 hover:from-brandOrange hover:to-orange-600 text-white font-tech font-bold tracking-wider px-8 py-5 rounded-xl shadow-btn-orange transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex flex-col sm:flex-row items-center justify-center gap-4 overflow-hidden">
+
+                <div class="absolute inset-0 w-1/2 bg-white/10 skew-x-[-30deg] -translate-x-full group-hover:animate-[shine_1s_ease-in-out]"></div>
+
+                <div class="text-left sm:border-r sm:border-white/20 sm:pr-4">
+
+                    <span class="block text-[10px] opacity-75 uppercase tracking-widest">Click to Copy Address</span>
+
+                    <span class="text-base font-black tracking-normal">needed-tgp.gl.joinmc.link</span>
+
+                </div>
+
+                <div class="flex items-center gap-2 text-sm uppercase font-black tracking-widest bg-black/10 sm:bg-transparent px-4 py-1 rounded sm:p-0">
+
+                    <i class="fas fa-server animate-pulse text-brandGreen"></i> Join World
+
+                </div>
+
+            </button>
+
+            <p id="copy-alert" class="text-brandGreen font-tech text-xs uppercase tracking-widest mt-4 opacity-0 transition-opacity duration-300">
+
+                <i class="fas fa-check-circle"></i> Connection Address Copied to Clipboard!
+
+            </p>
+
+        </div>
+
+    </header>
+
+
+
+    <section id="mods" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+
+        <div id="links" class="text-center mb-16 scroll-mt-24">
+
+            <h2 class="font-tech text-3xl sm:text-4xl font-bold tracking-wider text-white">THE ENGINE ROOM & SYSTEM LINKS</h2>
+
+            <div class="h-[2px] w-16 bg-brandGreen mx-auto mt-3"></div>
+
+            <p class="text-slate-400 mt-4 max-w-md mx-auto text-sm">Perfectly optimized components. Click any card to access the official mod source.</p>
+
+        </div>
+
+
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+            <script>
+
+                const mods = [
+
+                    { name: 'Create', desc: 'Core kinetic machinery & automated structural engineering.', icon: 'fa-cog', url: 'https://modrinth.com/mod/create' },
+
+                    { name: "Steam 'n' Rails", desc: 'Immersive rail logistics, high speed engines, and customized tracks.', icon: 'fa-train', url: 'https://modrinth.com/mod/create-steam-n-rails' },
+
+                    { name: 'Create: Crafts & Additions', desc: 'Electrification bridges, bio-generation, and electric motors.', icon: 'fa-bolt', url: 'https://www.curseforge.com/minecraft/mc-mods/createaddition' },
+
+                    { name: 'Create: Enchantment Industry', desc: 'Liquid experience integration, automatic printing & enchanting.', icon: 'fa-flask', url: 'https://modrinth.com/mod/create-enchantment-industry' },
+
+                    { name: 'Create Connected', desc: 'Smarter fluid lines, modern logic gates, and gear upgrades.', icon: 'fa-network-wired', url: 'https://modrinth.com/mod/create-connected' },
+
+                    { name: 'Create Tweaked Controllers', desc: 'Fine-tune signal mapping, precision pilot modules.', icon: 'fa-gamepad', url: 'https://www.curseforge.com/minecraft/mc-mods/create-tweaked-controllers' },
+
+                    { name: 'Copycats+', desc: 'Complex detailing facades and visual block cloning architecture.', icon: 'fa-clone', url: 'https://modrinth.com/mod/copycats' },
+
+                    { name: 'Architectury API', desc: 'Advanced performance abstraction library interface.', icon: 'fa-cubes', url: 'https://modrinth.com/mod/architectury-api' },
+
+                    { name: 'CreativeCore', desc: 'Visual processing enhancement and logic optimizations.', icon: 'fa-microchip', url: 'https:https://modrinth.com/mod/ferrite-core//modrinth.com/mod/creativecore' },
+
+                    { name: 'FerriteCore', desc: 'High-efficiency RAM reductions for extensive builds.', icon: 'fa-memory', url: '' },
+
+                    { name: 'ModernFix', desc: 'All-around performance patches and faster load routines.', icon: 'fa-wrench', url: 'https://modrinth.com/mod/modernfix' },
+
+                    { name: 'PuzzlesLib', desc: 'Dependency platform management architecture.', icon: 'fa-puzzle-piece', url: 'https://modrinth.com/mod/puzzles-lib' },
+
+                    { name: 'Kotlin for Forge', desc: 'Modern high-level language framework architecture support.', icon: 'fa-code', url: 'https://www.curseforge.com/minecraft/mc-mods/kotlin-for-forge' },
+
+                    { name: 'Konkrete', desc: 'Dynamic interface and rich media foundation layer.', icon: 'fa-layer-group', url: 'https://modrinth.com/mod/konkrete' },
+
+                    { name: 'JEI (Just Enough Items)', desc: 'Instant searchable recipe index and structural component schemas.', icon: 'fa-list-ol', url: 'https://modrinth.com/mod/jei' },
+
+                    { name: 'GeckoLib', desc: 'Fluid custom keyframe animations and model rendering.', icon: 'fa-dragon', url: 'https://modrinth.com/mod/geckolib' },
+
+                    { name: 'FutureShops', desc: 'Fully automated server player-market configurations.', icon: 'fa-store', url: 'https://www.curseforge.com/minecraft/mc-mods/future-shops' },
+
+                    { name: 'LazyDFU', desc: 'High performance data-fixer optimization arrays.', icon: 'fa-shield-halved', url: 'https://modrinth.com/mod/lazydfu' },
+
+                    { name: 'Create Tank Defenses', desc: 'Kinetic armor configurations and automation protective grids.', icon: 'fa-shield-cat', url: 'https://www.curseforge.com/minecraft/mc-mods/create-tank-defenses' }
+
+                ];
+
+
+
+                mods.forEach((mod, idx) => {
+
+                    const isOrange = idx % 2 === 0;
+
+                    const glowClass = isOrange ? 'hover:shadow-orange-glow hover:border-brandOrange/30' : 'hover:shadow-green-glow hover:border-brandGreen/30';
+
+                    const iconColor = isOrange ? 'text-brandOrange' : 'text-brandGreen';
+
+                    
+
+                    document.write(`
+
+                        <a href="${mod.url}" target="_blank" rel="noopener noreferrer" class="glass-panel p-6 rounded-xl transition-all duration-300 hover:-translate-y-1 ${glowClass} group flex items-start justify-between gap-4">
+
+                            <div class="flex items-start gap-4">
+
+                                <div class="w-12 h-12 rounded-lg bg-black/40 flex items-center justify-center border border-white/5 text-lg ${iconColor} group-hover:scale-110 transition-transform">
+
+                                    <i class="fas ${mod.icon}"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h3 class="font-tech text-base text-white tracking-wide mb-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-400 transition-all">${mod.name}</h3>
+
+                                    <p class="text-xs text-slate-400 leading-relaxed font-light">${mod.desc}</p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="text-slate-600 group-hover:text-slate-400 transition-colors text-xs pt-1">
+
+                                <i class="fas fa-external-link-alt"></i>
+
+                            </div>
+
+                        </a>
+
+                    `);
+
+                });
+
+            </script>
+
+        </div>
+
+    </section>
+
+
+
+    <section id="join" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5 scroll-mt-24">
+
+        <div class="text-center mb-16">
+
+            <h2 class="font-tech text-3xl sm:text-4xl font-bold tracking-wider text-white">INITIALIZATION SEQUENCE</h2>
+
+            <div class="h-[2px] w-16 bg-brandOrange mx-auto mt-3"></div>
+
+            <p class="text-slate-400 mt-4 max-w-md mx-auto text-sm">Follow these coordinates to synch up with the world mainframe.</p>
+
+        </div>
+
+
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+
+            
+
+            <div class="glass-panel p-8 rounded-xl relative overflow-hidden group">
+
+                <div class="absolute top-0 right-0 font-tech text-7xl font-black text-white/5 select-none -translate-y-4 translate-x-2">01</div>
+
+                <div class="w-12 h-12 bg-brandOrange/10 rounded-lg flex items-center justify-center border border-brandOrange/20 text-brandOrange mb-6">
+
+                    <i class="fas fa-download"></i>
+
+                </div>
+
+                <h3 class="font-tech text-lg text-white font-bold mb-3 tracking-wide">Install Forge 1.20.1</h3>
+
+                <p class="text-sm text-slate-400 leading-relaxed">Download and configure the official Forge installer matching version 1.20.1 inside your launcher profiles.</p>
+
+            </div>
+
+
+
+            <div class="glass-panel p-8 rounded-xl relative overflow-hidden group">
+
+                <div class="absolute top-0 right-0 font-tech text-7xl font-black text-white/5 select-none -translate-y-4 translate-x-2">02</div>
+
+                <div class="w-12 h-12 bg-brandGreen/10 rounded-lg flex items-center justify-center border border-brandGreen/20 text-brandGreen mb-6">
+
+                    <i class="fas fa-folder-open"></i>
+
+                </div>
+
+                <h3 class="font-tech text-lg text-white font-bold mb-3 tracking-wide">Sync Mod Directory</h3>
+
+                <p class="text-sm text-slate-400 leading-relaxed">Drop the exact matching mod set specified in our engine manifests directly into your default local active <code class="text-brandGreen text-xs font-mono bg-black/30 px-1 py-0.5 rounded">/mods</code> folder.</p>
+
+            </div>
+
+
+
+            <div class="glass-panel p-8 rounded-xl relative overflow-hidden group">
+
+                <div class="absolute top-0 right-0 font-tech text-7xl font-black text-white/5 select-none -translate-y-4 translate-x-2">03</div>
+
+                <div class="w-12 h-12 bg-brandOrange/10 rounded-lg flex items-center justify-center border border-brandOrange/20 text-brandOrange mb-6">
+
+                    <i class="fas fa-network-wired"></i>
+
+                </div>
+
+                <h3 class="font-tech text-lg text-white font-bold mb-3 tracking-wide">Transmit Link</h3>
+
+                <p class="text-sm text-slate-400 leading-relaxed">Boot up client network, select Multiplayer options, and append our destination gateway address: <span class="text-brandOrange text-xs font-mono break-all font-bold">needed-tgp.gl.joinmc.link</span></p>
+
+            </div>
+
+
+
+        </div>
+
+    </section>
+
+
+
+    <section id="rules" class="py-20 bg-black/20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 rounded-3xl mb-24 border border-white/5 scroll-mt-24">
+
+        <div class="text-center mb-16">
+
+            <h2 class="font-tech text-3xl sm:text-4xl font-bold tracking-wider text-white">WORLD CODES / COMPLIANCE</h2>
+
+            <div class="h-[2px] w-16 bg-brandGreen mx-auto mt-3"></div>
+
+        </div>
+
+
+
+        <div class="max-w-3xl mx-auto space-y-4">
+
+            <script>
+
+                const rules = [
+
+                    { title: "No Griefing", desc: "Do not deface, break, or sabotage structural arrays or factories belonging to other engineers without consent." },
+
+                    { title: "No Hacking or X-Ray", desc: "Third-party execution files providing unfair automated vision arrays or client injections are blacklisted instantly." },
+
+                    { title: "Be Respectful", desc: "Maintain structured, professional communication interfaces within central global transmission and chat vectors." },
+
+                    { title: "No Stealing", desc: "Extraction of raw material arrays, kinetic inventory networks, or automated lines without permission is flagged as hostiles." },
+
+                    { title: "No Lag Machines", desc: "All automated kinetic operations must include failsafe shut-offs to preserve universal server frames per second configuration boundaries." }
+
+                ];
+
+
+
+                rules.forEach((rule, idx) => {
+
+                    document.write(`
+
+                        <div class="glass-panel p-5 rounded-xl border-l-4 ${idx % 2 === 0 ? 'border-l-brandOrange' : 'border-l-brandGreen'} flex items-start gap-4 transition-transform hover:scale-[1.01]">
+
+                            <div class="font-tech font-bold text-slate-500 text-sm mt-0.5">#0${idx + 1}</div>
+
+                            <div>
+
+                                <h4 class="font-tech text-base text-white font-bold tracking-wide">${rule.title}</h4>
+
+                                <p class="text-xs sm:text-sm text-slate-400 mt-1 leading-relaxed font-light">${rule.desc}</p>
+
+                            </div>
+
+                        </div>
+
+                    `);
+
+                });
+
+            </script>
+
+        </div>
+
+    </section>
+
+
+
+    <footer class="border-t border-white/5 py-12 text-center text-xs font-tech text-slate-500 tracking-wider">
+
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-6">
+
+            <p>&copy; 2026 CreateCrafty Engine. All rights reserved.</p>
+
+            <p class="text-[10px] opacity-50">Not affiliated with Mojang Studios or Microsoft Corporation.</p>
+
+        </div>
+
+    </footer>
+
+
+
+
+
+    <script>
+
+        // Intro Screen Execution Trigger
+
+        window.addEventListener('DOMContentLoaded', () => {
+
+            setTimeout(() => {
+
+                const intro = document.getElementById('intro-screen');
+
+                intro.classList.add('opacity-0', 'pointer-events-none');
+
+                document.body.classList.remove('no-scroll');
+
+            }, 1800);
+
+        });
+
+
+
+        // Responsive Dropdown Switchboard
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+
+            mobileMenu.classList.toggle('hidden');
+
+        });
+
+
+
+        // Copy System
+
+        function copyServerIP() {
+
+            const ipString = 'needed-tgp.gl.joinmc.link';
+
+            navigator.clipboard.writeText(ipString).then(() => {
+
+                const alertText = document.getElementById('copy-alert');
+
+                alertText.classList.remove('opacity-0');
+
+                alertText.classList.add('opacity-100');
+
+                setTimeout(() => {
+
+                    alertText.classList.remove('opacity-100');
+
+                    alertText.classList.add('opacity-0');
+
+                }, 3000);
+
+            });
+
+        }
+
+
+
+        // Live Simulated Server Metrics Engine
+// Live Minecraft player count via Cloudflare Worker
+function updateRealPlayerCount() {
+    const apiUrl = 'https://createcrafty-bot.onrender.com/status';
+    const counter = document.getElementById('player-count');
+
+    fetch(apiUrl)
+        .then(res => res.json())
+        .then(data => {
+            counter.textContent = data.online ? data.players : '0';
+        })
+        .catch(() => {
+            counter.textContent = '…';
+        });
+}
+
+updateRealPlayerCount();
+setInterval(updateRealPlayerCount, 1000);
+
+
+
+        // 🌌 High Performance Canvas Particle System
+
+        const canvas = document.getElementById('particleCanvas');
+
+        const ctx = canvas.getContext('2d');
+
+
+
+        let particlesArray = [];
+
+        const numberOfParticles = 55;
+
+
+
+        // Resize observer tracking template
+
+        function resizeCanvas() {
+
+            canvas.width = window.innerWidth;
+
+            canvas.height = window.innerHeight;
+
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        resizeCanvas();
+
+
+
+        class Particle {
+
+            constructor() {
+
+                this.x = Math.random() * canvas.width;
+
+                this.y = Math.random() * canvas.height;
+
+                this.size = Math.random() * 2 + 1;
+
+                this.speedX = (Math.random() * 0.3) - 0.15;
+
+                this.speedY = (Math.random() * 0.2) - 0.1;
+
+                this.color = Math.random() > 0.5 ? 'rgba(255, 122, 0, 0.4)' : 'rgba(0, 255, 102, 0.4)';
+
+            }
+
+            update() {
+
+                this.x += this.speedX;
+
+                this.y += this.speedY;
+
+
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX = -this.speedX;
+
+                if (this.y < 0 || this.y > canvas.height) this.speedY = -this.speedY;
+
+            }
+
+            draw() {
+
+                ctx.fillStyle = this.color;
+
+                ctx.shadowBlur = 8;
+
+                ctx.shadowColor = this.color;
+
+                ctx.beginPath();
+
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+
+                ctx.fill();
+
+                ctx.shadowBlur = 0; // reset
+
+            }
+
+        }
+
+
+
+        function initParticles() {
+
+            particlesArray = [];
+
+            for (let i = 0; i < numberOfParticles; i++) {
+
+                particlesArray.push(new Particle());
+
+            }
+
+        }
+
+
+
+        function animateParticles() {
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particlesArray.length; i++) {
+
+                particlesArray[i].update();
+
+                particlesArray[i].draw();
+
+            }
+
+            requestAnimationFrame(animateParticles);
+
+        }
+
+
+
+        initParticles();
+
+        animateParticles();
+
+    </script>
+
 </body>
+
 </html>
